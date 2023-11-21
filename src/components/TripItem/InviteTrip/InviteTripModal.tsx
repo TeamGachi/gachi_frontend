@@ -8,7 +8,9 @@ interface friendProps {
   friend: string;
 }
 export default function InviteTripModal({onClick}: any) {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState([
+    {id: 2, user: 'user1@naver.com', friend: 'user2@naver.com'},
+  ]);
   const modalRef = useRef(null);
   const modalOutClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (modalRef.current === e.target) {
@@ -18,13 +20,6 @@ export default function InviteTripModal({onClick}: any) {
   const addTravel = () => {
     onClick(false);
   };
-  useEffect(() => {
-    const fetchFriend = async () => {
-      const response = await getFriends();
-      setFriends(response);
-    };
-    fetchFriend();
-  }, []);
   return (
     <Wrapper
       ref={modalRef}

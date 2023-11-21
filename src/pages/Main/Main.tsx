@@ -19,17 +19,17 @@ export default function Main() {
       alert('이메일 또는 비밀번호를 입력해주세요.');
       return;
     }
-    const response = await getLoginUser('login/', email, password);
-    if (response.ok) {
-      const token = await response.json();
-      localStorage.setItem('access', token.access);
-      localStorage.setItem('refresh', token.refresh);
-      setUserInfo({email: email});
-      alert('로그인 되었습니다.');
-      navigate('home');
-    } else {
-      alert('로그인에 실패하였습니다.');
-    }
+    // const response = await getLoginUser('login/', email, password);
+    // if (response.ok) {
+    //   const token = await response.json();
+    //   localStorage.setItem('access', token.access);
+    //   localStorage.setItem('refresh', token.refresh);
+    setUserInfo({email: email});
+    alert('로그인 되었습니다.');
+    navigate('home');
+    // } else {
+    //   alert('로그인에 실패하였습니다.');
+    // }
   };
   return (
     <>

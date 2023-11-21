@@ -43,10 +43,13 @@ export default function Home() {
     };
     fetchTrip();
   }, [isAdd]);
+  console.log(trips);
   return (
     <>
-      {isAdd && <AddTripComponent />}
-      {showNotice && <NotificationModal onClick={setShowNotice} />}
+      {isAdd && <AddTripComponent setTrip={setTrips} />}
+      {showNotice && (
+        <NotificationModal onClick={setShowNotice} setTrip={setTrips} />
+      )}
       <LogoWrapper>
         <Logo title="Gachi" />
         <div className="alert" onClick={() => setShowNotice(true)}>

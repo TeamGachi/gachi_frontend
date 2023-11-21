@@ -9,17 +9,10 @@ interface FriendInfoProps {
 }
 export default function Friend({src, email}: FriendInfoProps) {
   const [userImage, setUserImage] = useState('');
-  useEffect(() => {
-    const getImage = async () => {
-      const imageSrc = await getUserImage(src);
-      setUserImage(imageSrc);
-    };
-    getImage();
-  }, [src]);
   return (
     <FriendWrapper>
       <FriendInfo>
-        <FriendProfile src={userImage} />
+        <FriendProfile src={src} />
         <FriendEmail>{email}</FriendEmail>
       </FriendInfo>
     </FriendWrapper>

@@ -17,18 +17,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Main />}></Route>
             <Route path="/register" element={<Register />}></Route>
-            <Route
-              path="/home"
-              element={<PrivateRoute component={<Home />} />}
-            />
-            <Route
-              path="/travel-list"
-              element={<PrivateRoute component={<TravelList />} />}
-            />
-            <Route
-              path="/travel-list/:travelNumber"
-              element={<PrivateRoute component={<TravelItem />} />}
-            />
+            <Route path="/home" element={<Home />} />
+            <Route path="/travel-list" element={<TravelList />} />
+            <Route path="/travel-list/:travelNumber" element={<TravelItem />} />
           </Routes>
         </BrowserRouter>
       </Phone.Layout>

@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import Notice from './Notice';
 import {getFriendRequest} from '../../api/Friend';
 import {getTripRequest} from '../../api/Trip';
-import {processFriendRequest} from '../../api/Friend';
-import {processTripRequest} from '../../api/Trip';
 interface friendProps {
   id: number;
   sender: string;
@@ -16,9 +14,13 @@ interface tripProps {
   sender: string;
   receiver: string;
 }
-export default function NotificationModal({onClick}: any) {
-  const [noticeFriend, setNoticeFriend] = useState([]);
-  const [noticeTrip, setNoticeTrip] = useState([]);
+export default function NotificationModal({onClick, setTrip}: any) {
+  const [noticeFriend, setNoticeFriend] = useState([
+    // {id: 2, sender: 'user1@naver.com', receiver: 'test'},
+  ]);
+  const [noticeTrip, setNoticeTrip] = useState([
+    {id: 2, sender: 'user1@naver.com', receiver: 'test', trip: 2},
+  ]);
   const [reload, setReload] = useState(false);
   const modalRef = useRef(null);
   const modalOutClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -31,21 +33,36 @@ export default function NotificationModal({onClick}: any) {
   };
   const handleAccept = async (type: string, id: number) => {
     if (type === 'friend') {
-      const response = await processFriendRequest(id, 'accept');
-      alert(response.message);
+      alert('친구추가 되었습니다.');
+      setNoticeFriend([]);
+      // const response = await processFriendRequest(id, 'accept');
+      // alert(response.message);
     } else {
-      const response = await processTripRequest(id, 'accept');
-      alert(response.message);
+      alert('여행 초대 되었습니다.');
+      // const response = await processTripRequest(id, 'accept');
+      // alert(response.message);
+      setTrip([
+        {
+          arriving_date: '2023-11-01',
+          departing_data: '2023-11-30',
+          id: 1,
+          place: '도쿄 여행',
+          users: 'test',
+        },
+      ]);
+      setNoticeTrip([]);
     }
     setReload(!reload);
   };
   const handleReject = async (type: string, id: number) => {
     if (type === 'friend') {
-      const response = await processFriendRequest(id, 'reject');
-      alert(response.message);
+      alert('친구거절 되었습니다.');
+      // const response = await processFriendRequest(id, 'reject');
+      // alert(response.message);
     } else {
-      const response = await processTripRequest(id, 'reject');
-      alert(response.message);
+      alert('여행 초대 거절 되었습니다.');
+      // const response = await processTripRequest(id, 'reject');
+      // alert(response.message);
     }
     setReload(!reload);
   };

@@ -23,9 +23,9 @@ export default function TripCard({
         <EmptyTripCard />
       ) : (
         <TripItem>
-          <Travel.Date>{date}</Travel.Date>
-          <Travel.Title>{tripName}</Travel.Title>
-          <Travel.DDay>{`D ${dday}일`}</Travel.DDay>
+          <Travel.Date>{`2023-11-01 ~ 2023-11-30`}</Travel.Date>
+          <Travel.Title>{`도쿄 여행`}</Travel.Title>
+          <Travel.DDay>{`D +17일`}</Travel.DDay>
           <Travel.TodoBox>
             {memos.map((item, index) => (
               <Travel.Todo key={index}>{item}</Travel.Todo>

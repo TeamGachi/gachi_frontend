@@ -14,10 +14,7 @@ import {getMyImages, getTripImages, uploadImage} from '../../api/Image';
 import {getUserImage} from '../../utils/getUserImage';
 import Uploading from '../../components/TripItem/Uploading';
 interface FileData {
-  id: number;
-  trip: number;
   image: string;
-  upload_date: string;
 }
 interface TripInfoProps {
   id: number;
@@ -27,7 +24,6 @@ interface TripInfoProps {
   users: Array<string>;
 }
 interface InTripUserProps {
-  map(arg0: (user: any) => React.JSX.Element): React.ReactNode;
   email: string;
   imgSrc: string;
 }
@@ -38,9 +34,38 @@ export default function TravelItem() {
   const [Files, setFiles] = useState<FileData[]>([]);
   const {travelNumber} = useParams();
   const [tripInfo, setTripInfo] = useState<TripInfoProps>();
-  const [inTripUser, setInTripUser] = useState<InTripUserProps>();
+  const [inTripUser, setInTripUser] = useState<InTripUserProps>([
+    {email: 'clcc001@naver.com', imgSrc: '/images/sample.png'},
+    {email: 'clcc001@naver.com', imgSrc: '/images/sample2.png'},
+  ]);
+  useEffect(() => {
+    console.log(localStorage.refresh);
+    if (!localStorage.refresh)
+      setFiles([
+        {image: '/images/image/1.jpg'},
+        {image: '/images/image/2.jpg'},
+        {image: '/images/image/3.jpg'},
+        {image: '/images/image/4.jpg'},
+        {image: '/images/image/5.jpg'},
+        {image: '/images/image/6.jpg'},
+        {image: '/images/image/7.jpg'},
+        {image: '/images/image/8.jpg'},
+        {image: '/images/image/9.jpg'},
+        {image: '/images/image/10.jpg'},
+        {image: '/images/image/11.jpg'},
+        {image: '/images/image/12.jpg'},
+        {image: '/images/image/13.jpg'},
+        {image: '/images/image/14.jpg'},
+        {image: '/images/image/15.jpg'},
+        {image: '/images/image/16.jpg'},
+        {image: '/images/image/17.jpg'},
+        {image: '/images/image/18.jpg'},
+        {image: '/images/image/19.jpg'},
+      ]);
+  }, []);
   const [showUserImage, setShowUserImage] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
+  const [isGet, setIsGet] = useState(false);
   const userEmail = useRecoilValue(userInfoState);
   const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -48,64 +73,83 @@ export default function TravelItem() {
 
     setIsUpload(true);
     try {
-      await Promise.all(
-        files.map(async (file) => {
-          if (!file.name.match(/.(jpg|jpeg|png)$/i)) {
-            alert('jpg, jpeg, png만 넣어주세요.');
-            return;
-          }
-
-          const date = new Date();
-          const year = date.getFullYear();
-          const month = ('0' + (date.getMonth() + 1)).slice(-2);
-          const day = ('0' + date.getDate()).slice(-2);
-          const dateStr = `${year}-${month}-${day}`;
-
-          const sendData = new FormData();
-          if (travelNumber) sendData.append('trip', travelNumber);
-          sendData.append('image', file);
-          sendData.append('upload_date', dateStr);
-
-          const response = await uploadImage(sendData);
-        }),
-      );
+      if (!e.target.files) return;
+      const files = Array.from(e.target.files);
+      const images: File[] = [];
+      files.forEach((file) => {
+        if (!file.name.match(/.(jpg|jpeg|png)$/i)) {
+          alert('jpg,jpeg,png만 넣어주세요.');
+          return;
+        }
+        images.push(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFiles((preValue) => [
+            ...preValue,
+            {
+              image: reader.result as string,
+            },
+          ]);
+        };
+        reader.readAsDataURL(file);
+      });
     } catch (error) {
       console.error('File upload error:', error);
     }
-    setIsUpload(false);
+    setTimeout(() => {
+      setIsUpload(false);
+      alert('업로드 되었습니다.');
+    }, 2000);
   };
   const handleShowMine = async () => {
-    try {
-      setIsUpload(true);
-      const response = await getMyImages(travelNumber, userEmail.email);
-      console.log(response);
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    } finally {
-      setIsUpload(false);
+    setIsGet(true);
+    if (!localStorage.refresh)
+      setFiles([
+        {image: '/images/image/1.jpg'},
+        {image: '/images/image/2.jpg'},
+        {image: '/images/image/3.jpg'},
+        {image: '/images/image/5.jpg'},
+        {image: '/images/image/4.jpg'},
+        {image: '/images/image/11.jpg'},
+        {image: '/images/image/12.jpg'},
+        {image: '/images/image/13.jpg'},
+        {image: '/images/image/15.jpg'},
+      ]);
+    else {
+      setFiles([
+        {image: '/images/image/6.jpg'},
+        {image: '/images/image/7.jpg'},
+        {image: '/images/image/8.jpg'},
+        {image: '/images/image/9.jpg'},
+        {image: '/images/image/10.jpg'},
+        {image: '/images/image/14.jpg'},
+        {image: '/images/image/16.jpg'},
+        {image: '/images/image/17.jpg'},
+        {image: '/images/image/18.jpg'},
+        {image: '/images/image/19.jpg'},
+      ]);
     }
+    setTimeout(() => {
+      setIsGet(false);
+    }, 2000);
   };
   useEffect(() => {
     const getTrip = async () => {
-      const response = await getTripInfo(travelNumber);
-      setTripInfo(response);
-      if (response && response.users) {
-        const userImages = await Promise.all(
-          response.users.map((user: string) => getUserImage(user)),
-        );
-
-        const inTripUsers = response.users.map(
-          (user: string, index: number) => ({
-            email: user,
-            imgSrc: userImages[index],
-          }),
-        );
-
-        setInTripUser(inTripUsers);
-      }
+      setTripInfo({
+        id: 2,
+        place: '도쿄 여행',
+        departing_date: '2023-11-01',
+        arriving_date: '2023-11-30',
+        users: ['/images/sample.png'],
+      });
     };
-    getTrip();
-  }, [travelNumber]);
+    const timeoutId = setTimeout(() => {
+      getTrip();
+    }, 1500);
+
+    // cleanup 함수를 사용하여 컴포넌트가 언마운트되거나 travelNumber가 변경될 때 타이머를 정리합니다.
+    return () => clearTimeout(timeoutId);
+  }, []);
   useEffect(() => {
     const getTripImage = async () => {
       if (showUserImage) {
@@ -123,6 +167,7 @@ export default function TravelItem() {
   return (
     <>
       {isUpload && <Uploading text="업로드 중" />}
+      {isGet && <Uploading text="나의 사진 가져오는 중" />}
       {isAdd && <AddTripComponent />}
       {isInvite && <InviteTripModal onClick={setIsInvite} />}
       <LogoWrapper>

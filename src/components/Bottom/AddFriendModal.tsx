@@ -11,7 +11,10 @@ interface friendProps {
   friend: string;
 }
 export default function AddFriendModal({onClick}: any) {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState([
+    // {id: 2, user: '/images/sample2.png', friend: 'user2@naver.com'},
+    {id: 2, user: '/images/sample.png', friend: 'user1@naver.com'},
+  ]);
   const [receiver, setReceiver] = useState('');
   const userEmail = useRecoilValue(userInfoState);
   const modalRef = useRef(null);
@@ -25,12 +28,12 @@ export default function AddFriendModal({onClick}: any) {
       alert('추가할 이메일을 입력하세요');
       return;
     }
-    const response = await addFriend(userEmail.email, receiver);
-    if (!response.message) {
-      alert('친구추가 되었습니다.');
-    } else {
-      alert(response.message);
-    }
+    // const response = await addFriend(userEmail.email, receiver);
+    // if (!response.message) {
+    alert('친구추가 되었습니다.');
+    // } else {
+    //   alert(response.message);
+    // }
   };
   const closeModal = () => {
     onClick(false);
@@ -55,7 +58,7 @@ export default function AddFriendModal({onClick}: any) {
           {friends.map((friend: friendProps) => (
             <Friend
               key={friend.friend}
-              src={friend.friend}
+              src={friend.user}
               email={friend.friend}
             />
           ))}

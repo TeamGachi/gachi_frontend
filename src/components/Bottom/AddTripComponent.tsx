@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import {useRecoilState} from 'recoil';
 import {isAddTripState} from '../../atoms/atom';
 import {addTrip} from '../../api/Trip';
-export default function AddTripComponent() {
+export default function AddTripComponent({setTrip}: any) {
   const [isAdd, setIsAdd] = useRecoilState(isAddTripState);
   const [place, setPlace] = useState('');
   const datePickerFormat = 'YYYY-MM-DD';
@@ -40,9 +40,18 @@ export default function AddTripComponent() {
       alert('장소를 입력해주세요');
       return;
     }
-    const response = await addTrip(place, startDate, endDate);
+    // const response = await addTrip(place, startDate, endDate);
     alert('여행이 추가되었습니다.');
     setIsAdd(false);
+    setTrip([
+      {
+        arriving_date: '2023-11-01',
+        departing_data: '2023-11-30',
+        id: 1,
+        place: '도쿄 여행',
+        users: 'test',
+      },
+    ]);
   };
   return (
     <Wrapper

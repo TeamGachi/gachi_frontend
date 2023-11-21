@@ -17,22 +17,15 @@ export default function Friend({src, email}: FriendInfoProps) {
   const userEmail = useRecoilValue(userInfoState);
   const handleInviteFriend = async () => {
     const userConfirm = confirm('여행에 초대하시겠습니까?');
-    if (userConfirm) {
-      const response = await inviteTrip(travelNumber, userEmail.email, email);
-      alert('초대했습니다.');
-    }
+    // if (userConfirm) {
+    //   const response = await inviteTrip(travelNumber, userEmail.email, email);
+    alert('초대했습니다.');
+    // }
   };
-  useEffect(() => {
-    const getImage = async () => {
-      const imageSrc = await getUserImage(src);
-      setUserImage(imageSrc);
-    };
-    getImage();
-  }, [src]);
   return (
     <FriendWrapper>
       <FriendInfo>
-        <FriendProfile src={userImage} />
+        <FriendProfile src={`/images/sample2.png`} />
         <FriendEmail>{email}</FriendEmail>
         <FriendAdd>
           <GrAdd size="30" onClick={handleInviteFriend} />

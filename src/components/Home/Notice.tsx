@@ -21,21 +21,21 @@ export default function Notice({
   const [userImage, setUserImage] = useState('');
 
   useEffect(() => {
-    const getImage = async () => {
-      const imageSrc = await getUserImage(src);
-      setUserImage(imageSrc);
-    };
-    getImage();
+    // const getImage = async () => {
+    //   const imageSrc = await getUserImage(src);
+    //   setUserImage(imageSrc);
+    // };
+    // getImage();
   }, [src]);
   return (
     <NoticeWrapper>
       <NoticeInfo>
-        <NoticeProfile src={userImage} />
+        <NoticeProfile src="/images/sample.png" />
         <NoticeEmail>
           {email}으로부터
           {type === 'friend'
             ? ' 친구 요청이 왔습니다.'
-            : ` ${inviteName} 초대 받았습니다.`}
+            : ` 도쿄 여행 초대 받았습니다.`}
         </NoticeEmail>
         <ButtonWrapper>
           <Accept onClick={() => onAccept()}>수락</Accept>
